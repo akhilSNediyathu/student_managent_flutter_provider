@@ -4,7 +4,7 @@ class Student{
   final String schoolname;
   final String fathername;
   final int age;
-  final String profilePicture;
+  final String profilePicturePath;
 
 
   Student({
@@ -13,6 +13,6 @@ class Student{
     required this.schoolname,
     required this.fathername,
     required this.age,
-    required this.profilePicture,
+    required this.profilePicturePath,
   });
 }

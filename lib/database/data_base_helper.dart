@@ -48,7 +48,7 @@ class DatabaseHelper{
         columnSchoolname: student.schoolname,
         columnFathername: student.fathername,
         columnAge: student.age,
-        columnProfilePicture: student.profilePicture,
+        columnProfilePicture: student.profilePicturePath,
     }
       
     );
@@ -56,7 +56,7 @@ class DatabaseHelper{
   Future<List<Student>> getStudent()async{
     final db = await database;
     final List<Map<String,dynamic>> maps = await db.query(table);
-    return List.generate(maps.length, (index) => Student(id: maps[index][columnId], name: maps[index][columnName], schoolname: maps[index][columnSchoolname], fathername:  maps[index][columnFathername], age:  maps[index][columnAge], profilePicture:  maps[index][columnProfilePicture]));
+    return List.generate(maps.length, (index) => Student(id: maps[index][columnId], name: maps[index][columnName], schoolname: maps[index][columnSchoolname], fathername:  maps[index][columnFathername], age:  maps[index][columnAge], profilePicturePath:  maps[index][columnProfilePicture]));
   }
   Future<int> updateStudent(Student student) async {
     final db = await database;
@@ -67,7 +67,7 @@ class DatabaseHelper{
         columnSchoolname: student.schoolname,
         columnFathername: student.fathername,
         columnAge: student.age,
-        columnProfilePicture: student.profilePicture,
+        columnProfilePicture: student.profilePicturePath,
       },
       where: '$columnId = ?',
       whereArgs: [student.id],

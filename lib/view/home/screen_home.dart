@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor:Tcolo.primarycolor1,
         title: !homeProvider.isSearching
             ? const Text('Student List', style: titletxt)
@@ -46,57 +48,57 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: homeProvider.filteredStudents.isEmpty
-          ? const Center(
-              child: Text(
-                'No students found.',
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 4,
-                    wordSpacing: 5),
-              ),
-            )
-          : GridView.builder(
-              padding: const EdgeInsets.all(8.0),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 8.0,
-                mainAxisSpacing: 8.0,
-              ),
-              itemCount: homeProvider.filteredStudents.length,
-              itemBuilder: (context, index) {
-                final student = homeProvider.filteredStudents[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            StudentDetailspage(student: student),
-                      ),
-                    ).then((value) => homeProvider.refreshStudentList());
-                  },
-                  child: Card(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          radius: 50.0,
-                          backgroundImage:
-                              FileImage(File(student.profilePicturePath)),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          student.name,
-                          style: const TextStyle(
-                              fontFamily: 'Comfortaa',
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
+          ? 
+          // const Center(
+          //     child: Text(
+          //       'No students found.',
+          //       style: TextStyle(
+          //           fontWeight: FontWeight.w600,
+          //           letterSpacing: 4,
+          //           wordSpacing: 5),
+          //     ),
+          //   )
+          Center(
+            child: SizedBox(
+              width: 200,
+              child: Lottie.asset('assets/no data found.json')),
+          )
+          : ListView.builder(
+  padding: const EdgeInsets.all(8.0),
+  itemCount: homeProvider.filteredStudents.length,
+  itemBuilder: (context, index) {
+    final student = homeProvider.filteredStudents[index];
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => StudentDetailspage(student: student),
+          ),
+        ).then((value) => homeProvider.refreshStudentList());
+      },
+      child: Card(
+        child: ListTile(
+          
+          leading: CircleAvatar(
+            radius: 30.0,
+            backgroundImage: FileImage(File(student.profilePicturePath)),
+          ),
+          title: Text(
+            student.name,
+            style:const TextStyle(
+              fontFamily: 'Comfortaa',
+              fontWeight: FontWeight.bold,
             ),
+            
+          ),
+           subtitle:Text(student.schoolname),
+               trailing: Text('age:${student.age.toString()}'),
+        ),
+      ),
+    );
+  },
+),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
